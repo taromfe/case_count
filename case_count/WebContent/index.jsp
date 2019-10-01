@@ -7,6 +7,7 @@ if (username == null || username.equals("")) { // not logged in
 	response.sendRedirect(request.getContextPath() + "/login.jsp");
 } else {
 	response.setHeader("X-Frame-Options", "deny");
+	response.setHeader("X-XSS-Protection", "1; mode=block");
 	String errorMsg = request.getParameter("error_msg");
 %>
 <html>
