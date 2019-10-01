@@ -8,7 +8,6 @@ if (username == null || username.equals("")) { // not logged in
 } else {
 	response.setHeader("X-Frame-Options", "deny");
 	response.setHeader("X-XSS-Protection", "1; mode=block");
-	String errorMsg = request.getParameter("error_msg");
 %>
 <html>
 <head>
@@ -28,23 +27,17 @@ if (username == null || username.equals("")) { // not logged in
 </head>
 <body>
 <div>Login as <%= username %> | <a href="logout.jsp">Logout</a></div>
+<div>Add Picked Up Case</div>
 <div>
-<form action="add_case_count" method="post">
+<form action="add_case_count.jsp" method="post">
 <div>DATE: <input type="text" name="date" id="datepicker" placeholder="click here to input date" size="24"/></div>
 <div>CASE ID: <input type="text" name="case_id"></div>
-<div><input type="submit" name="submit" value="submit"/></div>
+<div><input type="submit" name="add_case" value="Add Case"/></div>
 <input type="hidden" name="csrf_token" value="<%= session.getAttribute("csrf_token")%>"/>
+<input type="hidden" name="username" value="<%= username %>"/>
 </form>
 </div>
-<div><a href="case_count.jsp">show your case count</a></div>
-<%
-	if (errorMsg != null || errorMsg.equals("")) {
-		String cleansedErrorMsg = errorMsg.replaceAll("&", "&amp;").replaceAll("<", "&gt;").replaceAll(">", "&lt;").replaceAll("\"", "&quot;");
-%>
-<script type="text/javascript">alert("<%= cleansedErrorMsg %>")</script>
-<%
-	}
-%>
+<div><form action="case_count.jsp" method="post"><input type="hidden" name="username" value="<%= username %>"/><input type="submit" name="case_count" value="show your case"/></form></div>
 </body>
 </html>
 <%
