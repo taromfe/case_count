@@ -34,31 +34,70 @@ try (Connection conn = DriverManager.getConnection(connectionStr)){
 		}
 	}
 }
+response.setHeader("X-Frame-Options", "deny");
+response.setHeader("X-XSS-Protection", "1; mode=block");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Case Assignment of <%= username %></title>
-</head>
-<body>
-<div>Case Assignment of <%= username %></div>
-<table>
-	<tr>
-		<th>DATE (yyyy/mm/dd)</th>
-		<th>CASE ID</th>
-	</tr>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<link rel="stylesheet" href="css/styles.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script>
+var cases = [];
+var i = 0;
 <%
 for (SupportCase supportCase: cases.toArray(new SupportCase[cases.size()])) {
 %>
-	<tr>
-		<td><%= supportCase.getYear()%>/<%= supportCase.getMonth() %>/<%= supportCase.getDay() %></td>
-		<td><%= supportCase.getInteractionID() %></td>
-	</tr>
+cases[i++] = {year: <%= supportCase.getYear() %>, month: <%= supportCase.getMonth() %>, day: <%= supportCase.getDay() %>, interactionID: '<%= supportCase.getInteractionID() %>'};
 <%
 }
 %>
-</table>
+var year_month = {};
+for (i = 0; i < cases.length; i++) {
+	c = cases[i];
+	tmpStr = (c['year'] + '-' + c['month']);
+	year_month[tmpStr] = {year: c['year'], month: c['month']};
+}
+</script>
+<title>Case Assignment of <%= username %></title>
+</head>
+<body>
+<div class="case_count_header">Case Assignment of <%= username %></div>
+<div class="year_month_selector"><select id="year_month_options"><option value="all" selected>all</option></select></div>
+<div id="case_table"></div>
 <div><a href="./">top page</a></div>
+<div id="message"></div>
+<script type="text/javascript">
+$(document).ready(function(){
+	// set year-month option for filtering cases
+	year_month_list = Object.keys(year_month);
+	for (i = 0; i < year_month_list.length; i++) {
+		option_str = "<option value='" + year_month_list[i] + "'>" + year_month_list[i] + "</option>";
+		$("#year_month_options").append(option_str);
+	}
+
+	// creata case count table
+	var table_element = "<table>";
+	table_element += "<tr><th>DATE (yyyy/mm/dd)</th><th>CASE ID</th></tr>";
+	for (i = 0; i < cases.length; i++) {
+		c = cases[i];
+		table_element += ("<tr><td>" + c['year'] + "/" + c['month'] + "/" + c['day'] + "</td><td>" + c['interactionID'] + "</td></tr>");
+	};
+	table_element += "</table>";
+	$("#case_table").append(table_element);
+	
+	// year_month_options select change
+	$('#year_month_options').change(function() {
+		console.log('#year_month_options on change');
+		year_month_value = $('#year_month_options').val();
+		console.log("year_month_value=" + year_month_value)
+		$("#message").text(year_month_value);
+	});
+});
+</script>
 </body>
 </html>

@@ -1,0 +1,59 @@
+@charset "UTF-8";
+
+.login_header {
+	text-align: center;
+	font-weight: bold;
+}
+
+.login {
+	border-style: solid;
+	border-width: 1px;
+	border-color: black;
+	margin: auto;
+	width: fit-content;
+}
+
+.login div {
+	margin: auto;
+	width: fit-content;
+	
+}
+
+.user_info {
+	text-align: center;
+}
+
+.add_case_header {
+	text-align: center;
+	font-weight: bold;
+}
+
+.add_case {
+	border-style: solid;
+	border-width: 1px;
+	border-color: black;
+	margin: auto;
+	width: fit-content;
+}
+
+.add_case div {
+	margin: auto;
+	width: fit-content;
+	
+}
+
+.show_your_case {
+	margin: auto;
+	width: fit-content;
+	
+}
+
+.case_count_header {
+	text-align: center;
+	font-weight: bold;
+}
+
+.year_month_selector {
+	margin: auto;
+	width: fit-content;
+}

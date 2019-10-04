@@ -10,6 +10,7 @@ if (username == null || username.length() == 0) { // not logined yet
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="css/styles.css">
 <title>Login</title>
 </head>
 <body>
@@ -23,9 +24,12 @@ if (errorMessage != null && errorMessage.length() > 0) {
 }
 %>
 <form action="authentication.jsp" method="post">
+<div class="login_header">Login to Case Count Tool</div>
+<div class="login">
 <div>Email: <input type="text" name="username"/></div>
 <div>Password: <input type="password" name="password"/></div>
 <div><input type="submit" name="login" value="login"/></div>
+</div>
 </form>
 </body>
 </html>
